@@ -161,11 +161,73 @@ dados_vendas_limpos |>
     TRUE ~"Sem receita"
   )) |>
   select(cidade,produto,categoria_receita)
+
+
+# A função summarise e group_by ------------------------------------------------------
+
+# calcula a receita media
+dados_vendas_limpos |> 
+  summarise(receita_media = mean(receita))
+
+# calcula a receita total
+dados_vendas_limpos |> 
+  summarise(receita_total = sum(receita))
+
+# calcula o numero de representantes distintos mos dados
+dados_vendas_limpos |> 
+  summarise(numero_representante = n_distinct(representante))
+
+# calcula o numero total de vendas realizadas
+dados_vendas_limpos |> 
+  summarise(total_vendas = n ())
+
+# calcula a receita media por cidade
+dados_vendas_limpos |> 
+  group_by(cidade) |> 
+  summarise(receita_media = mean (receita))
+
+#calcula a receita media por produto
+dados_vendas_limpos |> 
+  group_by(produto) |> 
+  summarise(receita_media = mean(receita))
+
+# calcula a receita meia por cidade e produto
+dados_vendas_limpos |> 
+  group_by(cidade, produto) |> 
+  summarise(receita_media = mean(receita))
+
+
+# A função arrange --------------------------------------------------------
+
+# ordena os dados por receita em ordem crescente
+dados_vendas_limpos |> 
+  arrange(receita)
+
+# ordena os dados por receita em ordem descrescente
+dados_vendas_limpos |> 
+  arrange(desc(receita))
+
+# ordena a receita media por cidade em ordem crescente
+dados_vendas_limpos |> 
+  group_by(cidade) |> 
+  summarise(receita_media = mean(receita)) |> 
+  arrange(receita_media)
+
+# ordena a receita media por cidade em ordem descrescente
+# salva o resultado em um novoobjeto
+receita_media_cidade <- 
+  dados_vendas_limpos |>
+  group_by(cidade) |> 
+  summarise(receita_media = mean(receita)) |> 
+  arrange(desc(receita_media))
+
+# exibe o resultado
+receita_media_cidade
+
+
+          
+          
+          
   
-  
-
-
-
-
 
 
