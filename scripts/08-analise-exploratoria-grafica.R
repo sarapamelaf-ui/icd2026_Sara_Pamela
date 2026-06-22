@@ -76,5 +76,30 @@ tidyplots_options(width = NA, height = NA)
 
 dados_marketing |> 
   tidyplot(y = receita_vendas) |> 
+  add_boxplot()
+
+
+# 5. Estatisticas por status de promoção ----------------------------------
+
+# Compara semanas com e sem promoção; isto não estima efeito causal.
+estatisticas_comparativas <-  dados_marketing |> 
+  group_by(status_promocao) |> 
+  summarise(
+    n = n(),
+    media = mean(receita_vendas),
+    meidana = median(receita_vendas),
+    cv = sd(receita_vendas) / mean(receita_vendas) * 100
+    
+  )
   
-  
+# Exibe o resumo calculado
+estatisticas_comparativas
+
+
+# 6. Boxplot comparativo por status de promoção ---------------------------
+
+# Compara a receita semanal entre semanas com e sem promoção
+dados_marketing |> 
+  tidyplot(x = status_promocao, y = receita_vendas)|> 
+  add_boxplot()
+
